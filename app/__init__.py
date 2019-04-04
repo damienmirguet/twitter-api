@@ -1,5 +1,9 @@
 from flask import Flask
 from flask_restplus import Api
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 
 def create_app():
     app = Flask(__name__)
@@ -8,6 +12,10 @@ def create_app():
     def hello():
         return "Goodbye World!"
 
+    from config import Config
+    app.config.from_object(Config)
+    db.init_app(app)
+
     from .apis.tweets import api as tweets
     api = Api()
     api.add_namespace(tweets)
@@ -15,3 +23,15 @@ def create_app():
 
     app.config['ERROR_404_HELP'] = False
     return app
+
+
+
+
+
+
+
+
+
+
+
+
